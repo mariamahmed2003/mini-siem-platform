@@ -14,33 +14,40 @@ Automated security report generation (Python) — script written.
 Python 3 · Elasticsearch · Logstash · Kibana · Linux · Oracle VirtualBox
 
 ## Architecture
-[ Linux auth.log ]  [ Windows Events ]
-        │                   │
-        └─────────┬─────────┘
-                  ▼
-           [ Logstash ]
-         Parse & ship logs
-                  │
-                  ▼
-        [ Elasticsearch ]
-        Store & index logs
-          │              │
-          ▼              ▼
-      [ Kibana ]    [ Python Engine ]
-      Dashboard     Brute-force detection
-                         │
-              ┌──────────┴──────────┐
-              ▼                     ▼
-        [ alerts.json ]      [ report.txt ]
+
+```
+Linux auth.log      Windows Events
+      │                   │
+      └────────┬──────────┘
+               │
+          [ Logstash ]
+        parse & ship logs
+               │
+      [ Elasticsearch ]
+       store & index logs
+          │           │
+      [ Kibana ]  [ Python ]
+      dashboard   detect threats
+                      │
+               ┌──────┴──────┐
+          alerts.json    report.txt
+```
 
 ## Project Structure
+
+```
 mini-siem-platform/
+│
 ├── configs/
-│   └── siem.conf            # Logstash pipeline config
+│   └── siem.conf               # Logstash pipeline — reads logs, parses, ships to ES
+│
 ├── scripts/
-│   ├── threat_detector.py   # Brute-force detection engine
-│   └── report_generator.py  # Security report generator
+│   ├── threat_detector.py      # Detects brute-force IPs, writes alerts.json
+│   └── report_generator.py     # Reads alerts, produces security report .txt
+│
 ├── outputs/
-│   ├── alerts.json          # Sample alert output
-│   └── report_sample.txt    # Sample report
+│   ├── alerts.json             # Sample alert output
+│   └── report_sample.txt       # Sample security report
+│
 └── README.md
+```
