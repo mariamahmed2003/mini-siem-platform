@@ -4,11 +4,14 @@ Collects system logs, detects brute-force attacks, visualizes security events on
 Work in progress — see status below.
 
 ## Features & Status
-Collect Linux logs via Logstash (auth.log → Elasticsearch).
-Collect Windows logs (Winlogbeat).
-Detect brute-force SSH attacks (Python detection engine) — script written.
-Real-time Kibana dashboard with alerts — configured, pending live data.
-Automated security report generation (Python) — script written.
+
+```
+1-Collect Linux logs via Logstash (auth.log → Elasticsearch).
+2-Collect Windows logs (Winlogbeat).
+3-Detect brute-force SSH attacks (Python detection engine) — script written.
+4-Real-time Kibana dashboard with alerts — configured, pending live data.
+5-Automated security report generation (Python) — script written.
+```
 
 ## Tech Stack
 Python 3 · Elasticsearch · Logstash · Kibana · Linux · Oracle VirtualBox
