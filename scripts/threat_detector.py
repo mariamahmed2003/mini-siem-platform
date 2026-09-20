@@ -49,4 +49,6 @@ if __name__ == "__main__":
     alerts = detect_brute_force()
     with open("alerts.json", "w") as f:
         json.dump(alerts, f, indent=2)
+    for alert in alerts:
+        es.index(index="siem-alerts".document=alert)
     print(f"\n{len(alerts)} alert(s) written to alerts.json")
