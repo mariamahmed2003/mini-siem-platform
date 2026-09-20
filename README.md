@@ -6,11 +6,11 @@ Work in progress — see status below.
 ## Features & Status
 
 ```
-1-Collect Linux logs via Logstash (auth.log → Elasticsearch).
-2-Collect Windows logs (Winlogbeat).
-3-Detect brute-force SSH attacks (Python detection engine) — script written.
-4-Real-time Kibana dashboard with alerts — configured, pending live data.
-5-Automated security report generation (Python) — script written.
+1-Collect Linux logs via Logstash (auth.log -> Elasticsearch) - working, verified.
+2-Collect Windows logs (Winlogbeat) - working, verified.
+3-Detect brute-force SSH attacks (Python detection engine) - working, tested against simulated attacks.
+4-Real-time Kibana dashboard with alerts - working, populated with live detection data.
+5-Automated security report generation (Python) - working, generates timestamped .txt reports.
 ```
 
 ## Tech Stack
