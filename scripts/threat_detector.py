@@ -8,7 +8,7 @@ es = Elasticsearch("http://localhost:9200" , basic_auth=("elastic", os.environ.g
 
 THRESHOLD = 5
 
-def detect_brute_force():
+def detect_linux_brute_force():
     query = {
         "query": {
             "bool": {
@@ -44,6 +44,38 @@ def detect_brute_force():
            }
            alerts.append(alert)
            print(f"[ALERT] Brute-force detected from {ip} - {count} attempts")
+    return alerts
+def detect_windows_brute_force():
+    res = es.search(
+        index="siem-windows-*",
+        query={
+            "bool": {
+                "must": [
+                    {"match": {"event.code": "4625"}},
+                    {"range": {"@timestamp": {"gte": "now-1h"}}}
+                ]
+            }
+        },
+        size=1000
+    )
+    ip_count = defaultdict(int)
+    for hit in res["hits"]["hits"]:
+        src = hit["_source"]
+        ip = src.get("winlog", {}).get("event_data", {}).get("IpAddress", "unknown")
+        ip_count[ip] += 1
+
+    alerts = []
+    for ip, count in ip_count.items():
+        if count >= THRESHOLD:
+            alert = {
+                "type": "BRUTE_FORCE_WINDOWS",
+                "ip": ip,
+                "attempts": count,
+                "timestamp": datetime.utcnow().isoformat(),
+                "severity": "HIGH"
+            }
+            alerts.append(alert)
+            print(f"[ALERT] Windows brute-force detected from {ip} - {count} attempts")
     return alerts
 if __name__ == "__main__":
     alerts = detect_brute_force()
